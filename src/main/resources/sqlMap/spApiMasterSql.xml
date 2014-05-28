@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="spSampleMaster">
+
+	<statement id="insertDailyUser" parameterClass="java.util.Map">
+		INSERT INTO sample_daily_user (
+		    user_ameba_id,
+			daily_quest_id,
+			daily_user_time,
+			daily_grant_flag,
+			daily_play_type,
+			daily_user_status_flag,
+			insert_time,
+			update_time
+		) VALUES (
+			#userAmebaId#,
+			#dailyQuestId#,
+			#dailyUserTime#,
+			#dailyGrantFlag#,
+			#dailyPlayType#,
+			#dailyUserStatusFlag#,
+			now(),
+			now()
+		)
+	</statement>
+
+	<statement id="updateDailyUser" parameterClass="java.util.Map">
+		UPDATE 
+			sample_daily_user
+		SET
+			daily_grant_flag = #dailyGrantFlag#,
+			update_time = now()
+		WHERE
+			user_ameba_id = #userAmebaId# AND
+			daily_quest_id = #dailyQuestId#
+	</statement>
+
+<!-- Will delete this below-->
+	<statement id="deleteUser" parameterClass="java.util.Map">
+		DELETE FROM
+			sample_user
+	<dynamic prepend="WHERE">
+		<isNotEmpty prepend="AND" property="userUuId">
+			user_uu_id = #userUuId#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="userAmebaId">
+			user_ameba_id = #userAmebaId#
+		</isNotEmpty>
+	</dynamic>
+
+	</statement>
+
+	<statement id="deleteDailyUser" parameterClass="java.util.Map">
+		DELETE FROM
+			sample_daily_user
+		WHERE
+			user_ameba_id = #userAmebaId#
+	</statement>
+
+</sqlMap>

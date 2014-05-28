@@ -1,0 +1,7 @@
+{
+
+	"postDailyPattern" : {			
+		"result" : "ok"		
+	}
+
+}

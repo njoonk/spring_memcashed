@@ -1,0 +1,7 @@
+{
+
+	"postRegisterUser" : {
+		"result" : "ok"
+	}
+
+}

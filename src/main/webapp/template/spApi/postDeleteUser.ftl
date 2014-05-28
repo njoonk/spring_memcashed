@@ -1,0 +1,5 @@
+{
+	"postDeleteUser" : {			
+		"result" : "ok"		
+	}
+}

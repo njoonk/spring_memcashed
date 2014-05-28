@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="spSampleApiSlave">
+
+	<statement id="selectAmebaIdUserList" parameterClass="java.util.List" 
+		resultClass="sample.sp.core.bean.model.SampleUserModel">
+		SELECT
+			user_id AS userId,
+			user_ameba_id AS userAmebaId,
+			user_total_score AS userTotalScore,
+			user_best_score AS userBestScore,
+			user_best_time AS userBestTime,
+			user_best_ranking AS userBestRanking,
+			user_best_ranking_time AS userBestRankingTime,
+			user_won_cnt AS userWonCnt,
+			user_won_line_cnt AS userWonLineCnt,
+			user_best_won_line_cnt AS userBestWonLineCnt,
+			user_glasses AS userGlasses,
+			user_nickname AS userNickname,
+			user_gender AS userGender,
+			user_app_version AS userAppVersion,
+			user_status_flag AS userStatusFlag,
+			insert_time AS insertTime,
+			update_time AS updateTime
+		FROM
+			sample_ameba
+		WHERE
+			user_ameba_id IN
+			<iterate open="(" conjunction="," close=")">
+				<![CDATA[#[]#]]>
+			</iterate>
+	</statement>
+
+	<statement id="selectUserPlayTypeList" parameterClass="java.util.Map" 
+		resultClass="sample.sp.core.bean.model.SampleDailyUserModel">
+		SELECT
+			daily_user_id AS dailyUserId,
+			user_ameba_id AS userAmebaId,
+			daily_quest_id AS dailyQuestId,
+			daily_user_time AS dailyUserTime,
+			daily_play_type AS dailyPlayType,
+			daily_user_status_flag AS dailyUserStatusFlag,
+			insert_time AS insertTime,
+			update_time AS updateTime
+		FROM
+			sample_daily_user
+		WHERE
+			daily_quest_id = #dailyQuestId# AND
+			user_ameba_id IN
+			<iterate property="userIdlist" open="(" conjunction="," close=")">
+				<![CDATA[#userIdlist[]#]]>
+			</iterate> 
+	</statement>
+
+	<statement id="selectUserPlayTypeByDateList" parameterClass="java.util.Map" 
+		resultClass="sample.sp.core.bean.model.SampleDailyUserModel">
+		SELECT
+			daily_user_id AS dailyUserId,
+			user_ameba_id AS userAmebaId,
+			daily_quest_id AS dailyQuestId,
+			daily_user_time AS dailyUserTime,
+			daily_play_type AS dailyPlayType,
+			daily_user_status_flag AS dailyUserStatusFlag,
+			insert_time AS insertTime,
+			update_time AS updateTime
+		FROM
+			sample_daily_user
+		WHERE
+			user_ameba_id IN
+			<iterate property="userIdlist" open="(" conjunction="," close=")">
+				<![CDATA[#userIdlist[]#]]>
+			</iterate> AND
+			insert_time <![CDATA[>]]>= #insertTimeStart# AND
+			insert_time <![CDATA[<]]> #insertTimeEnd#
+	</statement>
+
+	<statement id="selectDailyUserByUpdateDate" parameterClass="java.util.Map" 
+		resultClass="sample.sp.core.bean.model.SampleDailyUserModel">
+		SELECT
+			daily_user_id AS dailyUserId,
+			user_ameba_id AS userAmebaId,
+			daily_quest_id AS dailyQuestId,
+			daily_user_time AS dailyUserTime,
+			daily_play_type AS dailyPlayType,
+			daily_user_status_flag AS dailyUserStatusFlag,
+			daily_grant_flag AS dailyGrantFlag,
+			insert_time AS insertTime,
+			update_time AS updateTime
+		FROM
+			sample_daily_user
+		WHERE
+			user_ameba_id = #userAmebaId# AND
+			insert_time <![CDATA[>]]>= #insertTimeStart# AND
+			insert_time <![CDATA[<]]> #insertTimeEnd#
+	</statement>
+
+</sqlMap>

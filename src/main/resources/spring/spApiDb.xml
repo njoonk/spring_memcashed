@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- ############ My SQL##################-->
+
+	<!-- Master DB in the Peta.-->
+	<bean id="spSampleMaster" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${my.master}:3306/sp_sample?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true" />
+        <property name="username" value="spSample" />
+        <property name="password" value="skRtlgody" /> 
+		<!-- Pool Setting -->
+		<property name="maxActive" value="5" />
+		<property name="maxIdle" value="5" />
+		<property name="maxWait" value="10000" />
+		<property name="poolPreparedStatements" value="true"/>
+
+		<!-- Delete when it will release to real searvice -->
+        <property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="7200000"/>
+    </bean>
+
+	<!-- Slave DB in the Peta.-->
+	<bean id="spSampleSlave" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${my.slave}:3306/sp_sample?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true" />
+        <property name="username" value="spSample" />
+        <property name="password" value="skRtlgody" />
+		<!-- Pool Setting -->
+		<property name="maxActive" value="5" />
+		<property name="maxIdle" value="5" />
+		<property name="maxWait" value="10000" />
+		<!-- Delete when it will release to real searvice -->
+        <property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="7200000"/>
+    </bean>
+
+	<!-- ############Be setted SQL Map Client################## -->
+	<!-- the Register.-->
+    <bean id="sqlMapSpSampleMaster" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>classpath:SqlMapSpApiMaster.xml</value>
+        </property>
+		<property name="dataSource" ref="spSampleMaster" />
+    </bean>
+	<!-- the Register.-->
+    <bean id="sqlMapSpSampleSlave" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>classpath:SqlMapSpApiSlave.xml</value>
+        </property>
+		<property name="dataSource" ref="spSampleSlave" />
+    </bean>
+
+</beans>

@@ -1,0 +1,7 @@
+{
+
+	"postDailyGrantFlag" : {
+		"result" : "ok"
+	}
+
+}

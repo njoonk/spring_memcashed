@@ -1,0 +1,7 @@
+{
+
+	"postUserData" : {			
+		"result" : "ok"		
+	}
+
+}

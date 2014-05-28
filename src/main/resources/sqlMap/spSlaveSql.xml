@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap 
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="spSampleSlave">
+
+	<statement id="selectDailyQuestNow" parameterClass="java.util.Map" 
+		resultClass="sample.bean.model.SampleDailyQuestModel">
+		SELECT
+			daily_quest_id AS dailyQuestId,
+			daily_quest_start AS dailyQuestStart,
+			daily_quest_end AS dailyQuestEnd,
+			daily_quest_title AS dailyQuestTitle,
+			daily_quest_talon AS dailyQuestTalon,
+			daily_quest_board AS dailyQuestBoard,
+			daily_quest_cnt AS dailyQuestCnt,
+			daily_grant_item AS dailyGrantItem,
+			daily_grant_value AS dailyGrantValue,
+			daily_grant_flag AS dailyGrantFlag,
+			daily_quest_status_flag AS dailyQuestStatusFlag,
+			insert_time AS insertTime,
+			update_time AS updateTime
+		FROM
+			sample_daily_quest
+		WHERE
+			daily_quest_start <![CDATA[<]]>= now() AND
+			daily_quest_end <![CDATA[>]]> now()
+		LIMIT 1
+	</statement>
+
+</sqlMap>

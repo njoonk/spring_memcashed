@@ -1,0 +1,5 @@
+{
+	"reLoadDailyQuest" : {
+		"result" : "ok"
+	}
+}

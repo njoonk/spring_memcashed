@@ -1,0 +1,7 @@
+{
+
+	"postDailyUser" : {			
+		"result" : "ok"		
+	}
+
+}
